@@ -1,4 +1,5 @@
 import httplib
+import urllib
 
 class OpenApiHttpClient:
     
@@ -23,9 +24,13 @@ class OpenApiHttpClient:
     def request(self, serviceUrl, method, body = None):
         try:
             conn = self.getConnection()
-            headers = {"AUTHORIZATION": "BEARER " + self.token}
+            headers = {
+                'AUTHORIZATION': 'BEARER ' + self.token,
+                'content-type': 'application/json'
+            }
+
             requestUrl = self.baseUrl + serviceUrl
-            conn.request(method = 'GET', url = requestUrl, body = body, headers = headers)
+            conn.request(method = method, url = requestUrl, body = body, headers = headers)
             response = conn.getresponse()
             res = response.read()
             return res
